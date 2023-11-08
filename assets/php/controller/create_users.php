@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Création formulaire User</title>
-    <link rel="stylesheet" href="./assets//css/styles.css">
-    <script defer src="./assets/js/main.js"></script>
-</head>
-
-<body>
-    <?php
+   <?php
 require_once('./assets/php/middleware/connect.php');
 
 try {
@@ -62,4 +51,3 @@ try {
         <input type="submit" value="Créer un user">
     </form>
 </body>
-</html>
