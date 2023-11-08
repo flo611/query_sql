@@ -32,8 +32,8 @@ try {
             $resultat = $stmt->execute();
 
             if ($resultat) {
-                $nouvelUtilisateurId = $db_connect->lastInsertId();
-                echo "User créé avec succès. ID de l'user : " . $nouvelUtilisateurId;
+                $nouvelUserrId = $db_connect->lastInsertId();
+                echo "User créé avec succès. ID de l'user : " . $nouvelUserrId;
             } else {
                 echo "Erreur lors de la création de l'user.";
             }
