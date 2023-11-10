@@ -33,8 +33,6 @@
     ?>
   
 </table>
-
-
 <?php require_once('./assets/php/controller/create_users.php'); ?>
 <?php require_once('./assets/php/controller/update_users.php'); ?>
 <?php require_once('./assets/php/controller/delete_users.php'); ?>

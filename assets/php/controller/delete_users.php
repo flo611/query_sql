@@ -2,27 +2,27 @@
 require_once('./assets/php/middleware/connect.php');
 
 try {
-    if ($_SERVER["REQUEST_METHOD"] == "DELETE" && isset($_DELETE['user_id'])) {
-        $userId = $_DELETE['user_id'];
-        $email = $_DELETE['email'];
-        $alias = $_DELETE['alias'];
-        $password = $_DELETE['password'];
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['_method']) && strtoupper($_POST['_method']) == 'DELETE') {
+        $userId = $_REQUEST['user_id'];
+        $email = $_REQUEST['email'];
+        $alias = $_REQUEST['alias'];
+        $password = $_REQUEST['password'];
 
         if (empty($email) || empty($alias) || empty($password)) {
             echo "Tous les champs doivent être remplis.";
         } else {
-            $sql = "DELETE user DELETE email = :email, alias = :alias, password = :password WHERE id = :user_id";
+            $sql = "DELETE FROM user WHERE id = :user_id AND email = :email AND alias = :alias AND password = :password";
             $stmt = $db_connect->prepare($sql);
+            $stmt->bindParam(':user_id', $userId);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':alias', $alias);
             $stmt->bindParam(':password', $password);
-            $stmt->bindParam(':user_id', $userId);
             $resultat = $stmt->execute();
 
             if ($resultat) {
-                echo "User Supprimer. ID de l'user : " . $userId;
+                echo "User Supprimé. ID de l'utilisateur : " . $userId;
             } else {
-                echo "Erreur lors de supression de l'user.";
+                echo "Erreur lors de la suppression de l'utilisateur.";
             }
         }
     }
@@ -32,9 +32,10 @@ try {
 ?>
 
 <body>
-    <h1>Formulaire de supression de l'user</h1>
+    <h1>Formulaire de suppression de l'user</h1>
 
-    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="delete">
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+    <input type="hidden" name="_method" value="DELETE">
         <input type="int" name="user_id" value="<?php echo $user['id']; ?>">
         <label for="email">Email :</label>
         <input type="text" name="email" id="email" required value="<?php echo $user['email']; ?>"><br>
@@ -45,6 +46,6 @@ try {
         <label for="password">Mot de passe :</label>
         <input type="password" name="password" id="password" required value="<?php echo $user['password']; ?>"><br>
 
-        <input type="submit" value="Suppression l'user">
+        <input type="submit" value="Supprimer l'user">
     </form>
 </body>
