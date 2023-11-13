@@ -1,19 +1,10 @@
-body{
-    background-color: wheat;
+body {
+  background-color: wheat;
 }
 
-.user-info {
-    font-weight: bold;
-    color: red;
-    margin: 10px 0;
-}
-table {
-    margin: 0 auto;
-    text-align: center;
-}
-th {
-    color: red;
-}
-h1{
-    text-align: center;
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
 }
