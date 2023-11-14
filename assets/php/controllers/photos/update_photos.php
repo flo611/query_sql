@@ -3,33 +3,31 @@
 require_once('../../middleware/connect.php');
 
 try {
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['image_id'])) {
-        $image_id = $_POST['image_id'];
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id'])) {
+        $id = $_POST['id'];
         $image = $_POST['image'];
         $name = $_POST['name'];
         $description = $_POST['description'];
-        $all_description = $_POST['all_description'];
-        $tarifs = $_POST['tarifs'];
-        $destinations = $_POST['destinations'];
+        $price = $_POST['price'];
+        $destination = $_POST['destination'];
 
-        if (empty($image) || empty($name) || empty($description)|| empty($all_description)|| empty($tarifs)|| empty($destinations)) {
+        if (empty($image) || empty($name) || empty($description)|| empty($price)|| empty($destination)) {
             echo "Tous les champs doivent être remplis.";
         } else {
             $sql = "UPDATE photo SET 
             image = :image, 
             name = :name, 
             description = :description, 
-            all_description = :all_description, 
-            tarifs = :tarifs, 
-            destinations = :destinations 
-            WHERE id = :image_id";
+            price = :price, 
+            destination = :destination 
+            WHERE id = :id";
             $stmt = $db_connect->prepare($sql);
+            $stmt->bindParam(':id', $id);
             $stmt->bindParam(':image', $image);
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':description', $description);
-            $stmt->bindParam(':all_description', $all_description);
-            $stmt->bindParam(':tarifs', $tarifs);
-            $stmt->bindParam(':destinations', $destinations);
+            $stmt->bindParam(':price', $price);
+            $stmt->bindParam(':destination', $destination);
             $resultat = $stmt->execute();
 
             if ($resultat) {

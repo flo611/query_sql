@@ -1,34 +1,26 @@
-<?php 
+
+<?php
 
 require_once('../../middleware/connect.php');
 
-try {
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['image_id']) && isset($_POST['_method']) && strtoupper($_POST['_method']) == 'DELETE') {
+$id = isset($_POST['id-delete']) ? $_POST['id-delete'] : null;
 
-        $image_id = $_POST['image_id'];
 
-        $sql_delete = "DELETE FROM photo WHERE image_id = :image_id";
-        $stmt_delete = $db_connect->prepare($sql_delete);
-        $stmt_delete->bindParam(':image_id', $image_id);
-        $resultat = $stmt_delete->execute();
+if ($id !== null && is_numeric($id)) {
 
-        if (!$photo) {
-            echo "La photo avec l'ID $image_id n'existe pas.";
-        } else {
-            $sql_delete = "DELETE FROM photo WHERE id = :image_id";
-            $stmt_delete = $db_connect->prepare($sql_delete);
-            $stmt_delete->bindParam(':image_id', $image_id);
-            $resultat = $stmt_delete->execute();
+    $stmt = $db_connect->prepare("DELETE FROM `photo` WHERE id = :id");
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
-            if ($resultat) {
-                header("Location: http://localhost/public/query_sql");
-                // echo "<script>alert('Photo supprimée avec succès. ID de l\'image : $image_id');</script>";
-            } else {
-                echo "<script>alert('Erreur lors de la suppression de la photo.');</script>";
-            }
-        }
+    $resultat = $stmt->execute();
+
+
+    if ($resultat) {
+        echo "Suppression réussie.";
+    } else {
+        echo "Erreur lors de la suppression.";
     }
-} catch (PDOException $e) {
-    error_log("Erreur : " . $e->getMessage());
-    echo "Une erreur s'est produite lors du traitement de la requête : " . $e->getMessage();
+} else {
+    echo "ID invalide.";
 }
+
+?>
